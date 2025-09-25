@@ -1,145 +1,150 @@
-# Bughunter - Low Hanging Bug Finder
+# bughunter
 
-A comprehensive Python tool for discovering low-hanging security issues on a target domain. This tool performs various scans including subdomain enumeration, authentication panel discovery, clickjacking checks, SPF validation, security header analysis, Java library detection, and CVE lookups.
+**bughunter** is an all-in-one domain bug finder tool designed to perform comprehensive security assessments on web domains. It automates the discovery of subdomains, enumeration of admin/login/registration panels, clickjacking checks, SPF evaluation, security headers analysis, Java library version scanning, and CVE lookups. The tool generates detailed reports in JSON, Markdown, and HTML formats for easy analysis.
 
 ## Features
 
-- **Subdomain Discovery**: Uses Certificate Transparency logs and DNS brute force to find subdomains.
-- **Authentication Panels**: Identifies potential admin, login, and registration pages.
-- **Clickjacking Protection**: Checks for missing X-Frame-Options and CSP headers.
-- **SPF Records**: Detects and lints SPF records for email security.
-- **Security Headers**: Scans for key security headers like CSP, HSTS, etc.
-- **Java Libraries**: Extracts and analyzes publicly accessible JAR files.
-- **CVE Lookup**: Searches for known vulnerabilities in detected components.
-- **Multiple Output Formats**: Generates reports in JSON, Markdown, and HTML formats.
-- **HTTP Server**: Automatically starts a local server to view HTML reports.
+- **Subdomain Discovery**: Uses Certificate Transparency (CT) logs and DNS brute-forcing to find subdomains.
+- **Admin/Login/Registration Panel Enumeration**: Scans for common authentication pages and crawls for additional links.
+- **Clickjacking Checks**: Identifies potential clickjacking vulnerabilities by checking for missing X-Frame-Options and CSP headers.
+- **SPF (Sender Policy Framework) Evaluation**: Analyzes SPF records for email security.
+- **Security Headers Evaluation**: Checks for essential security headers like Content-Security-Policy, X-Frame-Options, etc.
+- **Java Library Version Scanning**: Discovers publicly accessible .jar files and extracts manifest information.
+- **CVE Lookup**: Performs best-effort CVE searches for detected components using public APIs.
+- **Detailed Reporting**: Outputs results in JSON, Markdown, and HTML formats for comprehensive analysis.
+
+## Prerequisites
+
+- Python 3.10 or higher
+- Internet connection for external API calls (e.g., CVE lookup)
+- Permissions to test the target domain (see Disclaimer)
 
 ## Installation
 
-### Prerequisites
+### Windows
 
-- Python 3.10 or higher
-- pip (Python package manager)
+1. **Install Python**:
+   - Download and install Python 3.10+ from the [official website](https://www.python.org/downloads/).
+   - Ensure "Add Python to PATH" is checked during installation.
 
-### Dependencies
+2. **Install Dependencies**:
+   - Open Command Prompt or PowerShell as Administrator.
+   - Navigate to the project directory:
+     ```
+     cd d:/edunet/bugsolver
+     ```
+   - Install required packages:
+     ```
+     pip install -r requirements.txt
+     ```
 
-Install the required Python packages using pip:
+3. **Verify Installation**:
+   - Run the tool:
+     ```
+     python bughunter.py --help
+     ```
 
-```bash
-pip install requests beautifulsoup4 dnspython tldextract
-```
+### Linux
 
-### Cross-Platform Compatibility
+1. **Install Python**:
+   - Update your package manager and install Python 3.10+:
+     ```
+     sudo apt update
+     sudo apt install python3 python3-pip  # For Ubuntu/Debian
+     # or
+     sudo yum install python3 python3-pip  # For CentOS/RHEL
+     ```
 
-This tool is compatible with Linux, Windows, and macOS. Ensure Python is installed on your system:
+2. **Install Dependencies**:
+   - Navigate to the project directory:
+     ```
+     cd /path/to/bugsolver
+     ```
+   - Install required packages:
+     ```
+     pip3 install -r requirements.txt
+     ```
 
-- **Linux**: Python is usually pre-installed. If not, install via your package manager (e.g., `sudo apt install python3` on Ubuntu).
-- **Windows**: Download and install Python from [python.org](https://www.python.org/downloads/). Make sure to check "Add Python to PATH" during installation.
-- **macOS**: Python is pre-installed. For the latest version, install via Homebrew: `brew install python`.
+3. **Verify Installation**:
+   - Run the tool:
+     ```
+     python3 bughunter.py --help
+     ```
+
+### macOS
+
+1. **Install Python**:
+   - Download and install Python 3.10+ from the [official website](https://www.python.org/downloads/) or use Homebrew:
+     ```
+     brew install python
+     ```
+
+2. **Install Dependencies**:
+   - Navigate to the project directory:
+     ```
+     cd /path/to/bugsolver
+     ```
+   - Install required packages:
+     ```
+     pip3 install -r requirements.txt
+     ```
+
+3. **Verify Installation**:
+   - Run the tool:
+     ```
+     python3 bughunter.py --help
+     ```
 
 ## Usage
 
-### Basic Command
-
 Run the tool with the following command:
 
-```bash
+```
 python bughunter.py -d example.com -o out --max-pages 150 --threads 20
 ```
 
-### Command-Line Arguments
-
 - `-d, --domain`: Target domain (required, e.g., example.com)
-- `-o, --output`: Output directory (default: "out")
+- `-o, --output`: Output directory (default: out)
 - `--threads`: Number of threads (default: 12, reserved for future use)
 - `--max-pages`: Maximum pages to crawl (default: 150)
 - `--timeout`: HTTP timeout in seconds (default: 10)
 
-### Running on Different Operating Systems
-
-#### Linux
-
-1. Open a terminal.
-2. Navigate to the directory containing `bughunter.py`.
-3. Run the command as shown above.
-
-Example:
-```bash
-cd /path/to/bughunter
-python3 bughunter.py -d example.com -o reports
+**Example**:
+```
+python bughunter.py -d example.com -o reports --max-pages 200 --threads 15
 ```
 
-#### Windows
+After execution, check the console for a summary and review the generated files in the output directory.
 
-1. Open Command Prompt or PowerShell.
-2. Navigate to the directory containing `bughunter.py` using `cd`.
-3. Run the command.
-
-Example:
-```cmd
-cd C:\path\to\bughunter
-python bughunter.py -d example.com -o reports
-```
-
-#### macOS
-
-1. Open Terminal.
-2. Navigate to the directory containing `bughunter.py`.
-3. Run the command.
-
-Example:
-```bash
-cd /path/to/bughunter
-python3 bughunter.py -d example.com -o reports
-```
-
-### Output
+## Output
 
 The tool generates three types of reports in the specified output directory:
 
 - **JSON Report**: `{domain}_bughunter.json` - Machine-readable data.
 - **Markdown Report**: `{domain}_bughunter.md` - Human-readable summary.
-- **HTML Report**: `{domain}_bughunter.html` - Interactive web report.
+- **HTML Report**: `{domain}_bughunter.html` - Interactive web-based report.
 
-After scanning, the tool automatically starts an HTTP server on port 8000 (or the next available port) to serve the HTML report. Open your browser and navigate to `http://localhost:8000/{domain}_bughunter.html` to view the results.
-
-## Examples
-
-### Basic Scan
-```bash
-python bughunter.py -d example.com
-```
-
-### Custom Output and Settings
-```bash
-python bughunter.py -d example.com -o ./scans/example -o --max-pages 200 --threads 15 --timeout 15
-```
-
-### Quick Scan with Minimal Crawling
-```bash
-python bughunter.py -d example.com --max-pages 50
-```
-
-## Legal and Ethics
-
-**Important**: Run this tool only on domains you own or have explicit written permission to test. You are responsible for complying with all applicable laws and policies. Unauthorized scanning may violate terms of service or local laws.
-
-## Troubleshooting
-
-- **Module Not Found Errors**: Ensure all dependencies are installed using the pip command above.
-- **DNS Resolution Issues**: The tool requires internet access for DNS lookups and external API calls.
-- **Port Already in Use**: If port 8000 is occupied, the tool will try the next available port.
-- **Python Version**: Verify you're using Python 3.10+ by running `python --version` or `python3 --version`.
+Example output files:
+- `example.com_bughunter.json`
+- `example.com_bughunter.md`
+- `example.com_bughunter.html`
 
 ## Contributing
-manas1020:- https://github.com/manas1020
-SanikaG31:-  https://github.com/SanikaG31
-diptibangde10:- https://github.com/diptibangde10
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository.
+2. Create a feature branch: `git checkout -b feature/new-feature`.
+3. Commit your changes: `git commit -am 'Add new feature'`.
+4. Push to the branch: `git push origin feature/new-feature`.
+5. Submit a pull request.
 
 ## License
 
-This project is open-source. Please check the license file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
----
+## Disclaimer
 
-For more information, refer to the inline comments in `bughunter.py`.
+**Legal & Ethics**: Run this tool only on domains you own or have explicit written permission to test. You are responsible for complying with all applicable laws and policies. Unauthorized scanning may violate terms of service or legal regulations.
+
+For educational and authorized use only.
