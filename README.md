@@ -1,9 +1,3 @@
-Got it!
-I will **keep all the provided information about Bughunter as it is**, but rewrite it in the **format and style of ReconX Complete's README**, making it look professional and structured.
-
-Here's the **final `README.md`** content:
-
-````markdown
 # Bughunter
 
 **Bughunter v1.1** – A Python-only low-hanging bug finder for security research, penetration testing, and bug bounty hunting.
