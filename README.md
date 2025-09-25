@@ -235,5 +235,3 @@ Open-source under the **MIT License** – see the LICENSE file for details.
 
 ---
 
-```
-```
