@@ -105,7 +105,7 @@ pip install -r requirements.txt
 ```bash
 sudo apt update
 sudo apt install python3 python3-pip
-git clone https://github.com/your-username/bughunter.git
+git clone https://github.com/CyberTeam-code/BugHunter.git
 cd bughunter
 pip3 install -r requirements.txt
 python3 bughunter.py -d example.com
@@ -117,7 +117,7 @@ python3 bughunter.py -d example.com
 
 ```bash
 brew install python
-git clone https://github.com/your-username/bughunter.git
+git clone https://github.com/CyberTeam-code/BugHunter.git
 cd bughunter
 pip3 install -r requirements.txt
 python3 bughunter.py -d example.com
