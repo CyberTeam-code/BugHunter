@@ -1,145 +1,245 @@
-# Bughunter - Low Hanging Bug Finder
+Got it!
+I will **keep all the provided information about Bughunter as it is**, but rewrite it in the **format and style of ReconX Complete's README**, making it look professional and structured.
 
-A comprehensive Python tool for discovering low-hanging security issues on a target domain. This tool performs various scans including subdomain enumeration, authentication panel discovery, clickjacking checks, SPF validation, security header analysis, Java library detection, and CVE lookups.
+Here's the **final `README.md`** content:
 
-## Features
+````markdown
+# Bughunter
 
-- **Subdomain Discovery**: Uses Certificate Transparency logs and DNS brute force to find subdomains.
-- **Authentication Panels**: Identifies potential admin, login, and registration pages.
-- **Clickjacking Protection**: Checks for missing X-Frame-Options and CSP headers.
-- **SPF Records**: Detects and lints SPF records for email security.
-- **Security Headers**: Scans for key security headers like CSP, HSTS, etc.
-- **Java Libraries**: Extracts and analyzes publicly accessible JAR files.
-- **CVE Lookup**: Searches for known vulnerabilities in detected components.
-- **Multiple Output Formats**: Generates reports in JSON, Markdown, and HTML formats.
-- **HTTP Server**: Automatically starts a local server to view HTML reports.
+**Bughunter v1.1** – A Python-only low-hanging bug finder for security research, penetration testing, and bug bounty hunting.
 
-## Installation
+Bughunter is designed to uncover **low-hanging vulnerabilities** in a target domain using pure Python, making it lightweight, portable, and easy to run across multiple operating systems without external dependencies like heavy scanners or binaries.
+
+---
+
+## What the Tool Does
+
+Bughunter helps you identify **common weaknesses** in domains and web applications by performing a series of automated checks and reconnaissance tasks.  
+It generates professional reports in **JSON**, **Markdown**, and **HTML**, complete with a built-in HTTP server for quick result viewing.
+
+### Key Features
+
+- **Subdomain Discovery**  
+  Uses Certificate Transparency logs and DNS brute force to enumerate subdomains.
+
+- **Authentication Panel Detection**  
+  Automatically scans for **admin**, **login**, and **registration** pages.
+
+- **Clickjacking Vulnerability Check**  
+  Detects missing `X-Frame-Options` and CSP headers.
+
+- **SPF Record Analysis**  
+  Identifies issues with SPF records to prevent email spoofing.
+
+- **Security Header Analysis**  
+  Scans for missing headers like **CSP**, **HSTS**, etc.
+
+- **Java Library Analysis**  
+  Finds publicly accessible JAR files and checks their `MANIFEST` versions.
+
+- **CVE Lookup**  
+  Searches for known vulnerabilities related to discovered libraries or versions.
+
+- **Export Capabilities**  
+  Outputs results in **JSON**, **Markdown**, and **HTML** formats.
+
+- **Built-in HTTP Server**  
+  Automatically launches a local server to view interactive HTML reports.
+
+---
+
+## Use Cases
+
+- Security Assessments and VAPT
+- Bug Bounty Hunting
+- Web Application Reconnaissance
+- Domain and Subdomain Intelligence Gathering
+- Vulnerability Research
+
+---
+
+## Installation Instructions
 
 ### Prerequisites
+- Python **3.10 or higher**
+- Internet connection for API lookups and scanning
 
-- Python 3.10 or higher
-- pip (Python package manager)
+---
 
-### Dependencies
+### Step 1: Clone the Repository
+```bash
+git clone https://github.com/your-username/bughunter.git
+cd bughunter
+````
 
-Install the required Python packages using pip:
+---
+
+### Step 2: Install Dependencies
+
+#### Install using pip:
 
 ```bash
 pip install requests beautifulsoup4 dnspython tldextract
 ```
 
-### Cross-Platform Compatibility
+#### OR install via requirements.txt:
 
-This tool is compatible with Linux, Windows, and macOS. Ensure Python is installed on your system:
+```bash
+pip install -r requirements.txt
+```
 
-- **Linux**: Python is usually pre-installed. If not, install via your package manager (e.g., `sudo apt install python3` on Ubuntu).
-- **Windows**: Download and install Python from [python.org](https://www.python.org/downloads/). Make sure to check "Add Python to PATH" during installation.
-- **macOS**: Python is pre-installed. For the latest version, install via Homebrew: `brew install python`.
+---
 
-## Usage
+## OS-Specific Installation
+
+### **Windows**
+
+1. Download and install Python from [python.org](https://www.python.org/downloads/).
+2. During installation, **check "Add Python to PATH"**.
+3. Open **Command Prompt** or **PowerShell**:
+
+   ```cmd
+   cd C:\path\to\bughunter
+   pip install -r requirements.txt
+   python bughunter.py -d example.com
+   ```
+
+---
+
+### **Linux**
+
+```bash
+sudo apt update
+sudo apt install python3 python3-pip
+git clone https://github.com/your-username/bughunter.git
+cd bughunter
+pip3 install -r requirements.txt
+python3 bughunter.py -d example.com
+```
+
+---
+
+### **macOS**
+
+```bash
+brew install python
+git clone https://github.com/your-username/bughunter.git
+cd bughunter
+pip3 install -r requirements.txt
+python3 bughunter.py -d example.com
+```
+
+---
+
+## How to Use
 
 ### Basic Command
 
-Run the tool with the following command:
-
 ```bash
-python bughunter.py -d example.com -o out --max-pages 150 --threads 20
+python bughunter.py -d example.com -o output_folder
 ```
+
+---
 
 ### Command-Line Arguments
 
-- `-d, --domain`: Target domain (required, e.g., example.com)
-- `-o, --output`: Output directory (default: "out")
-- `--threads`: Number of threads (default: 12, reserved for future use)
-- `--max-pages`: Maximum pages to crawl (default: 150)
-- `--timeout`: HTTP timeout in seconds (default: 10)
+| Argument       | Description                    | Default Value |
+| -------------- | ------------------------------ | ------------- |
+| `-d, --domain` | Target domain to scan          | Required      |
+| `-o, --output` | Output directory for reports   | `./out`       |
+| `--threads`    | Number of threads for scanning | 12            |
+| `--max-pages`  | Maximum pages to crawl         | 150           |
+| `--timeout`    | HTTP request timeout (seconds) | 10            |
 
-### Running on Different Operating Systems
+---
 
-#### Linux
+### Example Usage
 
-1. Open a terminal.
-2. Navigate to the directory containing `bughunter.py`.
-3. Run the command as shown above.
+#### 1. Basic Scan
 
-Example:
-```bash
-cd /path/to/bughunter
-python3 bughunter.py -d example.com -o reports
-```
-
-#### Windows
-
-1. Open Command Prompt or PowerShell.
-2. Navigate to the directory containing `bughunter.py` using `cd`.
-3. Run the command.
-
-Example:
-```cmd
-cd C:\path\to\bughunter
-python bughunter.py -d example.com -o reports
-```
-
-#### macOS
-
-1. Open Terminal.
-2. Navigate to the directory containing `bughunter.py`.
-3. Run the command.
-
-Example:
-```bash
-cd /path/to/bughunter
-python3 bughunter.py -d example.com -o reports
-```
-
-### Output
-
-The tool generates three types of reports in the specified output directory:
-
-- **JSON Report**: `{domain}_bughunter.json` - Machine-readable data.
-- **Markdown Report**: `{domain}_bughunter.md` - Human-readable summary.
-- **HTML Report**: `{domain}_bughunter.html` - Interactive web report.
-
-After scanning, the tool automatically starts an HTTP server on port 8000 (or the next available port) to serve the HTML report. Open your browser and navigate to `http://localhost:8000/{domain}_bughunter.html` to view the results.
-
-## Examples
-
-### Basic Scan
 ```bash
 python bughunter.py -d example.com
 ```
 
-### Custom Output and Settings
+#### 2. Custom Output Directory
+
 ```bash
-python bughunter.py -d example.com -o ./scans/example -o --max-pages 200 --threads 15 --timeout 15
+python bughunter.py -d example.com -o ./reports
 ```
 
-### Quick Scan with Minimal Crawling
+#### 3. Fast Scan with More Threads
+
 ```bash
-python bughunter.py -d example.com --max-pages 50
+python bughunter.py -d example.com --threads 20 --timeout 8
 ```
-
-## Legal and Ethics
-
-**Important**: Run this tool only on domains you own or have explicit written permission to test. You are responsible for complying with all applicable laws and policies. Unauthorized scanning may violate terms of service or local laws.
-
-## Troubleshooting
-
-- **Module Not Found Errors**: Ensure all dependencies are installed using the pip command above.
-- **DNS Resolution Issues**: The tool requires internet access for DNS lookups and external API calls.
-- **Port Already in Use**: If port 8000 is occupied, the tool will try the next available port.
-- **Python Version**: Verify you're using Python 3.10+ by running `python --version` or `python3 --version`.
-
-## Contributing
-- manas1020:- https://github.com/manas1020
-- SanikaG31:-  https://github.com/SanikaG31
-- diptibangde10:- https://github.com/diptibangde10
-
-## License
-
-This project is open-source. Please check the license file for details.
 
 ---
 
-For more information, refer to the inline comments in `bughunter.py`.
+## Output and Reports
+
+After scanning, Bughunter generates **3 different report formats** in the output folder:
+
+| Report Type | Example File Name        | Description            |
+| ----------- | ------------------------ | ---------------------- |
+| JSON        | `example_bughunter.json` | Machine-readable data  |
+| Markdown    | `example_bughunter.md`   | Easy-to-read summary   |
+| HTML        | `example_bughunter.html` | Interactive web report |
+
+> **Tip:**
+> Once the scan finishes, the tool starts a local HTTP server (default port **8000**).
+> View your report in a browser:
+> `http://localhost:8000/example_bughunter.html`
+
+---
+
+## System Requirements
+
+| Resource   | Minimum Requirement   |
+| ---------- | --------------------- |
+| OS         | Windows, Linux, macOS |
+| RAM        | 512MB                 |
+| Disk Space | 50MB                  |
+| Internet   | Required              |
+
+---
+
+## Troubleshooting
+
+| Issue                    | Solution                                    |
+| ------------------------ | ------------------------------------------- |
+| `ModuleNotFoundError`    | Run `pip install -r requirements.txt`       |
+| DNS errors               | Ensure stable internet connection           |
+| Port 8000 already in use | Tool automatically picks the next free port |
+| Python version too low   | Use Python 3.10 or higher                   |
+
+---
+
+## Legal Disclaimer
+
+> **Use Responsibly**
+> Run Bughunter **only on domains you own or have explicit permission to test**.
+> Unauthorized scanning can lead to legal consequences.
+
+---
+
+### Contributors
+
+* **Manas Dabhane** – 
+  [https://github.com/manas1020](https://github.com/manas1020)
+
+* **Sanika Gongale** – 
+  [https://github.com/SanikaG31](https://github.com/SanikaG31)
+
+* **Dipti Bangde** –
+  [https://github.com/diptibangde10](https://github.com/diptibangde10)
+
+---
+
+## License
+
+Open-source under the **MIT License** – see the LICENSE file for details.
+
+---
+
+```
+```
