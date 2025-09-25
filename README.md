@@ -132,9 +132,9 @@ python bughunter.py -d example.com --max-pages 50
 - **Python Version**: Verify you're using Python 3.10+ by running `python --version` or `python3 --version`.
 
 ## Contributing
-manas1020:- https://github.com/manas1020
-SanikaG31:-  https://github.com/SanikaG31
-diptibangde10:- https://github.com/diptibangde10
+- manas1020:- https://github.com/manas1020
+- SanikaG31:-  https://github.com/SanikaG31
+- diptibangde10:- https://github.com/diptibangde10
 
 ## License
 
